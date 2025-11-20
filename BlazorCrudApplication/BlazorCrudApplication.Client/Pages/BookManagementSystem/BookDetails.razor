@@ -1,21 +1,27 @@
 ﻿@page "/bookdetails"
-@rendermode InteractiveWebAssembly
-<h3>Multiple Forms Example</h3>
+@rendermode InteractiveAuto
+@using BlazorCrudApplication.Client.Interfaces.BookDetails
+@using BlazorCrudApplication.Client.Model
+{
+@inject IBookDetailsService bookDetailsService
 
-<EditForm Model="@formData1" OnValidSubmit="HandleSubmit1" FormName="form1">
+
+<h3>Book Details</h3>
+
+<EditForm Model="@formData1" OnValidSubmit="HandleSubmit" FormName="form1">
     <DataAnnotationsValidator />
     <ValidationSummary />
 
     <div class="mb-3">
-        <label for="name1" class="form-label">Name</label>
-        <InputText id="name1" class="form-control" @bind-Value="formData1.Name" />
-        <ValidationMessage For="@(() => formData1.Name)" />
+        <label for="name1" class="form-label">BookName</label>
+        <InputText id="name1" class="form-control" @bind-Value="formData1.BookName" />
+        <ValidationMessage For="@(() => formData1.BookName)" />
     </div>
 
     <div class="mb-3">
-        <label for="email1" class="form-label">Email</label>
-        <InputText id="email1" class="form-control" @bind-Value="formData1.Email" />
-        <ValidationMessage For="@(() => formData1.Email)" />
+        <label for="email1" class="form-label">AuthorName</label>
+        <InputText id="email1" class="form-control" @bind-Value="formData1.AuthorName" />
+        <ValidationMessage For="@(() => formData1.AuthorName)" />
     </div>
 
     <button type="submit" class="btn btn-primary">Submit Form 1</button>
@@ -24,26 +30,28 @@
 @if (isSubmitted)
 {
     <div class="alert alert-success mt-3">
-        <p>Form Submitted: <strong>@formData1.Name</strong></p>
-        <p>Email: @formData1.Email</p>
+        <p>Form Submitted: <strong>@formData1.BookName</strong></p>
+        <p>AuthorName: @formData1.AuthorName</p>
     </div>
 }
 
 @code {
-    private FormData formData1 = new FormData(); // Ensure it's initialized properly
+    private BookDetailsModel formData1 = new BookDetailsModel(); // Ensure it's initialized properly
     private bool isSubmitted = false;
 
     // Handle form submission
-    private void HandleSubmit1()
+    private async Task HandleSubmit()
     {
-        Console.WriteLine($"Name: {formData1.Name}, Email: {formData1.Email}");
-        isSubmitted = true;  // After submission, set the flag to show success
+        var BookDetails = await bookDetailsService.AddBookDetails(formData1);
     }
 
-    // Define the data model
-    public class FormData
-    {
-        public string Name { get; set; }
-        public string Email { get; set; }
-    }
+    // // Define the data model
+    // public class BookDetailsModel
+    // {
+    //     public int Id { get; set; }
+    //     public string? BookName { get; set; }
+    //     public string? AuthorName { get; set; }
+    //     public string? UploadBook { get; set; }
+    //     public List<string> BookTags { get; set; } = new List<string>();
+    // }
 }

@@ -1,6 +1,6 @@
 ﻿namespace BlazorCrudApplication.Client.Model
 {
-    public class BookDetails
+    public class BookDetailsModel
     {
         public int Id { get; set; }
         public string? BookName { get; set; }

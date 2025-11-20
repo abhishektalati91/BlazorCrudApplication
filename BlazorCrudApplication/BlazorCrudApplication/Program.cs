@@ -1,7 +1,9 @@
 using BlazorCrudApplication.Client.Interfaces;
+using BlazorCrudApplication.Client.Interfaces.BookDetails;
 using BlazorCrudApplication.Client.Pages;
 using BlazorCrudApplication.Components;
 using BlazorCrudApplication.Services;
+using BlazorCrudApplication.Services.BookDetails;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,7 +15,7 @@ builder.Services.AddRazorComponents()
 builder.Services.AddControllers();
 // Register IWeatherForecastService with its implementation
 builder.Services.AddScoped<IWeatherForecastService, WeatherForecastServices>();
-
+builder.Services.AddScoped<IBookDetailsService, BooksDetailsServices>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
