@@ -1,9 +1,11 @@
 using BlazorCrudApplication.Client.Interfaces;
 using BlazorCrudApplication.Client.Interfaces.BookDetails;
-using BlazorCrudApplication.Client.Pages;
 using BlazorCrudApplication.Components;
+using BlazorCrudApplication.Data;
 using BlazorCrudApplication.Services;
 using BlazorCrudApplication.Services.BookDetails;
+using Microsoft.EntityFrameworkCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,8 @@ builder.Services.AddRazorComponents()
 
 builder.Services.AddControllers();
 // Register IWeatherForecastService with its implementation
+builder.Services.AddDbContext<BookDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 builder.Services.AddScoped<IWeatherForecastService, WeatherForecastServices>();
 builder.Services.AddScoped<IBookDetailsService, BooksDetailsServices>();
 var app = builder.Build();

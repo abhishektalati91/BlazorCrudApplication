@@ -13,7 +13,7 @@ namespace BlazorCrudApplication.Client.Service
             _httpClient = _client;
         }
         public async Task<WeatherForecast[]?> GetWeatherForecastDetails()
-        {
+            {
             return await _httpClient.GetFromJsonAsync<WeatherForecast[]>("/api/WeatherForecast");
         }
     }

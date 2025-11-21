@@ -1,6 +1,5 @@
 ﻿using BlazorCrudApplication.Client.Interfaces.BookDetails;
 using BlazorCrudApplication.Client.Model;
-using BlazorCrudApplication.Client.Pages.BookManagementSystem;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlazorCrudApplication.Controllers
@@ -18,7 +17,8 @@ namespace BlazorCrudApplication.Controllers
         [HttpPost]
         public async Task<ActionResult<BookDetailsModel>> AddBookDetails(BookDetailsModel bookdetailsModal)
         {
-            return null;
+          var bookDetails = await _bookDetailsService.AddBookDetails(bookdetailsModal);
+           return bookDetails;
             
         }
     }
