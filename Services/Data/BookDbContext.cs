@@ -10,6 +10,6 @@ namespace BlazorCrudApplication.Data
         {
         }
 
-        public DbSet<BookDetailsModel> Books { get; set; } // Table for BookDetailsModel
+        public DbSet<BookDetailsModel> BookDetails { get; set; } // Table for BookDetailsModel
     }
 }

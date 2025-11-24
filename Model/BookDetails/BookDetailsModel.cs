@@ -6,10 +6,9 @@ namespace BlazorCrudApplication.Client.Model
     {
         [Key]
         public int Id { get; set; }
-        public string? BookName { get; set; } = "Abc";
-        public string? AuthorName { get; set; } = "Cde";
-        public string? UploadBook { get; set; } = "Xyz";
-        public List<string>? BookTags { get; set; } = new List<string>();
-   
+        public string? BookName { get; set; } 
+        public string? AuthorName { get; set; } 
+        public string? UploadBook { get; set; } 
+        public List<string>? BookTag { get; set; } = new List<string>();
     }
 }

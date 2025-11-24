@@ -1,0 +1,57 @@
+﻿@page "/grtbookdetails"
+@rendermode InteractiveAuto
+@using BlazorCrudApplication.Client.Interfaces
+@using BlazorCrudApplication.Client.Model
+@inject IBookDetailsService bookDetailsService
+
+<h3>Book Details</h3>
+
+@if (getAllBookDetails == null || !getAllBookDetails.Any())
+{
+    <p>Loading or no books available...</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Author</th>
+                <th>Year</th>
+                <th>Genre</th>
+                <th>
+                    <button class="btn btn-primary" >
+                        Edit
+                    </button>
+                    <button class="btn btn-danger" >
+                        Delete
+                    </button>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var book in getAllBookDetails)
+            {
+                <tr>
+                    <td>@book.Id</td>
+                    <td>@book.BookName</td>
+                    <td>@book.AuthorName</td>
+                    <td>@book.BookTag</td>
+                    <td>@book.UploadBook</td>
+                
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<BookDetailsModel> getAllBookDetails = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Corrected: Call the service, not the list
+        getAllBookDetails = await bookDetailsService.GetAll();
+    }
+}

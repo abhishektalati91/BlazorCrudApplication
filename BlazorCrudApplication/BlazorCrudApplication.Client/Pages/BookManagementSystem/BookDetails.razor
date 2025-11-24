@@ -1,8 +1,7 @@
 ﻿@page "/bookdetails"
 @rendermode InteractiveAuto
-@using BlazorCrudApplication.Client.Interfaces.BookDetails
+@using BlazorCrudApplication.Client.Interfaces
 @using BlazorCrudApplication.Client.Model
-{
 @inject IBookDetailsService bookDetailsService
 
 
@@ -42,6 +41,6 @@
     // Handle form submission
     private async Task HandleSubmit()
     {
-        var BookDetails = await bookDetailsService.AddBookDetails(formData1);
+        var BookDetails = await bookDetailsService.Add(formData1);
     }
 }

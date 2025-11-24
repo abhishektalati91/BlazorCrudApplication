@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorCrudApplication", "Bl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorCrudApplication.Client", "BlazorCrudApplication\BlazorCrudApplication.Client\BlazorCrudApplication.Client.csproj", "{78507845-9EF5-41BF-B3C4-E74E0DB00EC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ABookProjectModel", "Model\ABookProjectModel.csproj", "{E848CE93-FD58-41D4-B191-4B71BF07DD97}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookProject.Model", "Model\BookProject.Model.csproj", "{E848CE93-FD58-41D4-B191-4B71BF07DD97}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookProject.Services", "Services\BookProject.Services.csproj", "{4D941302-6A30-4B63-99F3-C4F953AC2EFC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{E848CE93-FD58-41D4-B191-4B71BF07DD97}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E848CE93-FD58-41D4-B191-4B71BF07DD97}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E848CE93-FD58-41D4-B191-4B71BF07DD97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4D941302-6A30-4B63-99F3-C4F953AC2EFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D941302-6A30-4B63-99F3-C4F953AC2EFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D941302-6A30-4B63-99F3-C4F953AC2EFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D941302-6A30-4B63-99F3-C4F953AC2EFC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

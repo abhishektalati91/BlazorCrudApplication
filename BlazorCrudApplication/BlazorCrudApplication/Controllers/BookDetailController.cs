@@ -1,4 +1,4 @@
-﻿using BlazorCrudApplication.Client.Interfaces.BookDetails;
+﻿using BlazorCrudApplication.Client.Interfaces;
 using BlazorCrudApplication.Client.Model;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,11 +15,37 @@ namespace BlazorCrudApplication.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<BookDetailsModel>> AddBookDetails(BookDetailsModel bookdetailsModal)
+        public async Task<ActionResult<BookDetailsModel>> AddBookDetails(BookDetailsModel bookDetailsModel)
         {
-          var bookDetails = await _bookDetailsService.AddBookDetails(bookdetailsModal);
-           return bookDetails;
-            
+            if (bookDetailsModel == null)
+            {
+                return BadRequest("Invalid book details.");
+            }
+
+            try
+            {
+                var addedBook = await _bookDetailsService.Add(bookDetailsModel);
+                return CreatedAtAction(nameof(AddBookDetails), new { id = addedBook.Id }, addedBook);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
         }
+
+        [HttpGet]
+
+        public async Task<ActionResult<List<BookDetailsModel>>> GetAllBookDetails()
+        {
+            try
+            {
+                var getAllBookDetails = await _bookDetailsService.GetAll();
+                return getAllBookDetails;
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex.Message}");
+            }
+
     }
 }

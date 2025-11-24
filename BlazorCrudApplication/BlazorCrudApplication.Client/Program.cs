@@ -1,10 +1,7 @@
-using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using BlazorCrudApplication.Client;
-using System.Net.Http;
 using BlazorCrudApplication.Client.Interfaces;
 using BlazorCrudApplication.Client.Service;
-using BlazorCrudApplication.Client.Interfaces.BookDetails;
 using BlazorCrudApplication.Client.Service.BookDetails;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 

@@ -1,11 +1,9 @@
-using BlazorCrudApplication.Client.Interfaces;
-using BlazorCrudApplication.Client.Interfaces.BookDetails;
-using BlazorCrudApplication.Components;
-using BlazorCrudApplication.Data;
-using BlazorCrudApplication.Services;
-using BlazorCrudApplication.Services.BookDetails;
-using Microsoft.EntityFrameworkCore;
 
+using BlazorCrudApplication.Components;
+using BlazorCrudApplication.Services;
+using Microsoft.EntityFrameworkCore;
+using BlazorCrudApplication.Client.Interfaces;
+using BlazorCrudApplication.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

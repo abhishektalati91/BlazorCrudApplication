@@ -1,4 +1,4 @@
-﻿using BlazorCrudApplication.Client.Interfaces.BookDetails;
+﻿using BlazorCrudApplication.Client.Interfaces;
 using BlazorCrudApplication.Client.Model;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -17,7 +17,7 @@ namespace BlazorCrudApplication.Client.Service.BookDetails
         }
 
         // Method to add book details
-        public async Task<BookDetailsModel> AddBookDetails(BookDetailsModel bookdetailsModel)
+        public async Task<BookDetailsModel> Add(BookDetailsModel bookdetailsModel)
         {
             try
             {
@@ -44,6 +44,51 @@ namespace BlazorCrudApplication.Client.Service.BookDetails
                 Console.WriteLine($"Exception: {ex.Message}");
                 return null;
             }
+        }
+
+        public Task<bool> Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async  Task<List<BookDetailsModel>> GetAll()
+        {
+
+                try
+                {
+                    // Send the Get request
+                    var response = await _httpClient.GetAsync("api/BookDetail");
+
+                    // Check if the response is successful
+                    if (response.IsSuccessStatusCode)
+                    {
+                    var books = await response.Content.ReadFromJsonAsync<List<BookDetailsModel>>();
+                    return books ?? new List<BookDetailsModel>(); // 
+                }
+                    else
+                    {
+                        // Log the error or throw an exception as needed
+                        Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                        return null; // Return null in case of failure
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Log or handle any exceptions that occur
+                    Console.WriteLine($"Exception: {ex.Message}");
+                    return null;
+                }
+
+        }
+
+        public Task<BookDetailsModel> GetById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<BookDetailsModel> Update(BookDetailsModel bookDetailsModel)
+        {
+            throw new NotImplementedException();
         }
     }
 }
