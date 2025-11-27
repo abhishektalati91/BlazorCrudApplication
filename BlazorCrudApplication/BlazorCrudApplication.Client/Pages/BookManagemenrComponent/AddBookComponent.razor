@@ -1,0 +1,101 @@
+﻿@using BlazorCrudApplication.Client.Interfaces
+@using BlazorCrudApplication.Client.Model
+@inject IBookDetailsService bookDetailsService
+@inject NavigationManager NavigationManager
+
+<EditForm Model="@formData1" OnValidSubmit="HandleSubmit" FormName="form1">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <h3>@Title</h3>
+
+    @if (IsEditable)
+    {
+        <div class="mb-3">
+            <label for="bookid" class="form-label">Book Id</label>
+            <span class="form-control">@formData1.Id</span>
+        </div>
+    }
+
+
+    <div class="mb-3">
+        <label for="name1" class="form-label">Book Name</label>
+        <InputText id="name1" class="form-control" @bind-Value="formData1.BookName" />
+        <ValidationMessage For="@(() => formData1.BookName)" />
+    </div>
+
+    <div class="mb-3">
+        <label for="email1" class="form-label">Author Name</label>
+        <InputText id="email1" class="form-control" @bind-Value="formData1.AuthorName" />
+        <ValidationMessage For="@(() => formData1.AuthorName)" />
+    </div>
+
+    <div class="mb-3">
+        <label for="uploadBook" class="form-label">Upload Book</label>
+        <InputText id="uploadBook" class="form-control" @bind-Value="formData1.UploadBook" />
+        <ValidationMessage For="@(() => formData1.UploadBook)" />
+    </div>
+
+    <div class="mb-3">
+        <label for="bookTag" class="form-label">Book Tags (Comma Separated)</label>
+        <InputText id="bookTag" class="form-control" @bind-Value="bookTagInput" @onblur="UpdateBookTags" />
+        <ValidationMessage For="@(() => formData1.BookTag)" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">@ButtonText</button>
+</EditForm>
+
+@code {
+    private BookDetailsModel formData1 = new BookDetailsModel();
+    private string bookTagInput;
+
+    [Parameter] public bool IsEditable { get; set; } = false;
+    [Parameter] public bool IsUpdate { get; set; } = false;
+    [Parameter] public int BookId { get; set; }  
+
+    private string Title => IsEditable ? "Update Book Details" : "Add Book Details";
+    private string ButtonText => IsUpdate ? "Update" : "Save";
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        if (IsEditable && BookId > 0 && IsUpdate)
+        {
+            // Load existing book details if IsEditable is true
+            formData1 = await bookDetailsService.GetById(BookId);
+        }
+        else
+        {
+            formData1 = new BookDetailsModel();
+            StateHasChanged();
+        }
+    }
+
+    private async Task HandleSubmit()
+    {
+        if (IsEditable)
+        {
+            // Update the existing book details
+            await bookDetailsService.Update(formData1);
+        }
+        else
+        {
+            // Add a new book
+            await bookDetailsService.Add(formData1);
+        }
+
+        // Optionally, redirect or show success message
+        NavigationManager.NavigateTo("/grtbookdetails");
+    }
+
+    private void UpdateBookTags()
+    {
+        if (!string.IsNullOrEmpty(bookTagInput))
+        {
+            formData1.BookTag = bookTagInput
+                .Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                .Select(tag => tag.Trim())
+                .ToList();
+        }
+    }
+}

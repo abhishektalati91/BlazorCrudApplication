@@ -16,39 +16,58 @@ namespace BlazorCrudApplication.Services
 
         public async Task<BookDetailsModel> Add(BookDetailsModel bookdetailsModel)
         {
-            var hardcodedBook = new BookDetailsModel
-            {
 
-                BookName = "The Great Gatsby",
-                AuthorName = "F. Scott Fitzgerald",
-                UploadBook = "great_gatsby.pdf",  // You can use a mock file path or filename
-                BookTag = new List<string> { "classic", "fiction", "american" }
-            };
-
-            _context.BookDetails.Add(hardcodedBook);
+            _context.BookDetails.Add(bookdetailsModel);
             await _context.SaveChangesAsync();
 
-            return hardcodedBook;
+            return bookdetailsModel;
         }
 
-        public Task<bool> Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            throw new NotImplementedException();
+            var bookToDelete = await _context.BookDetails.FindAsync(id);
+            if (bookToDelete != null)
+            {
+                _context.BookDetails.Remove(bookToDelete);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+
         }
 
         public async Task<List<BookDetailsModel>> GetAll()
         {
-           return  await _context.BookDetails.ToListAsync();
+            return await _context.BookDetails.ToListAsync();
         }
 
-        public Task<BookDetailsModel> GetById(int id)
+        public async Task<BookDetailsModel> GetById(int id)
         {
-            throw new NotImplementedException();
+            return await _context.BookDetails
+                                 .Where(x => x.Id == id)
+                                 .FirstOrDefaultAsync();
         }
 
-        public Task<BookDetailsModel> Update(BookDetailsModel bookDetailsModel)
+
+        public async Task<BookDetailsModel> Update(BookDetailsModel bookDetailsModel)
         {
-            throw new NotImplementedException();
+            var existingBook = await _context.BookDetails
+                                              .FirstOrDefaultAsync(x => x.Id == bookDetailsModel.Id);
+            if (existingBook == null)
+            {
+                throw new ArgumentException("Book not found");  
+            }\.loi
+            existingBook.BookName = bookDetailsModel.BookName;
+            existingBook.AuthorName = bookDetailsModel.AuthorName;
+            existingBook.UploadBook = bookDetailsModel.UploadBook;
+            existingBook.BookTag = bookDetailsModel.BookTag;
+            await _context.SaveChangesAsync();
+
+            return existingBook;
         }
+
     }
 }

@@ -2,45 +2,50 @@
 @rendermode InteractiveAuto
 @using BlazorCrudApplication.Client.Interfaces
 @using BlazorCrudApplication.Client.Model
+@using BlazorCrudApplication.Client.Pages.BookManagemenrComponent
 @inject IBookDetailsService bookDetailsService
+@inject NavigationManager NavigationManager
 
-
-<h3>Book Details</h3>
-
-<EditForm Model="@formData1" OnValidSubmit="HandleSubmit" FormName="form1">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
-
-    <div class="mb-3">
-        <label for="name1" class="form-label">BookName</label>
-        <InputText id="name1" class="form-control" @bind-Value="formData1.BookName" />
-        <ValidationMessage For="@(() => formData1.BookName)" />
-    </div>
-
-    <div class="mb-3">
-        <label for="email1" class="form-label">AuthorName</label>
-        <InputText id="email1" class="form-control" @bind-Value="formData1.AuthorName" />
-        <ValidationMessage For="@(() => formData1.AuthorName)" />
-    </div>
-
-    <button type="submit" class="btn btn-primary">Submit Form 1</button>
-</EditForm>
-
-@if (isSubmitted)
-{
-    <div class="alert alert-success mt-3">
-        <p>Form Submitted: <strong>@formData1.BookName</strong></p>
-        <p>AuthorName: @formData1.AuthorName</p>
-    </div>
-}
+<AddBookComponent IsEditable="@IsEditable" IsUpdate ="@IsUpdate" BookId="@BookId" />
 
 @code {
-    private BookDetailsModel formData1 = new BookDetailsModel(); // Ensure it's initialized properly
-    private bool isSubmitted = false;
+    private bool IsEditable = false;
+    private bool IsUpdate = false;
+    private int BookId = 0;
 
-    // Handle form submission
-    private async Task HandleSubmit()
+    protected override void OnInitialized()
     {
-        var BookDetails = await bookDetailsService.Add(formData1);
+        // Extract query parameters from the URL
+        var uri = NavigationManager.Uri;
+        var queryParams = GetQueryParams(uri);
+
+        if (queryParams.ContainsKey("isEditable"))
+        {
+            // Convert the query parameter value to a boolean
+            IsEditable = bool.Parse(queryParams["isEditable"]);
+            IsUpdate = true;
+            BookId = int.Parse(queryParams["id"]);
+          
+        }
+    }
+
+    private Dictionary<string, string> GetQueryParams(string uri)
+    {
+        var queryParams = new Dictionary<string, string>();
+        var uriBuilder = new UriBuilder(uri);
+        var query = uriBuilder.Query.TrimStart('?');
+
+        if (string.IsNullOrEmpty(query)) return queryParams;
+
+        foreach (var pair in query.Split('&'))
+        {
+            var keyValue = pair.Split('=');
+            if (keyValue.Length == 2)
+            {
+                queryParams[Uri.UnescapeDataString(keyValue[0])] = Uri.UnescapeDataString(keyValue[1]);
+            }
+        }
+
+        return queryParams;
     }
 }

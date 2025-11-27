@@ -46,9 +46,25 @@ namespace BlazorCrudApplication.Client.Service.BookDetails
             }
         }
 
-        public Task<bool> Delete(int id)
+        public async  Task<bool> Delete(int id)
         {
-            throw new NotImplementedException();
+            try {
+                var response = await _httpClient.DeleteAsync($"api/BookDetail/{id}");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false; // Return null if the response is not successful
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}");
+                return false;
+            }
         }
 
         public async  Task<List<BookDetailsModel>> GetAll()
@@ -81,14 +97,65 @@ namespace BlazorCrudApplication.Client.Service.BookDetails
 
         }
 
-        public Task<BookDetailsModel> GetById(int id)
+        public async Task<BookDetailsModel> GetById(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                // Send the GET request to fetch a specific book detail by ID
+                var response = await _httpClient.GetAsync($"api/BookDetail/{id}");
+
+                // Check if the response is successful
+                if (response.IsSuccessStatusCode)
+                {
+                    // Deserialize the response content and return the book details
+                    var book = await response.Content.ReadFromJsonAsync<BookDetailsModel>();
+                    return book; // Return the deserialized book object
+                }
+                else
+                {
+                    // Log the error or handle it as needed
+                    Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                    return null; // Return null if the response is not successful
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log or handle any exceptions that occur
+                Console.WriteLine($"Exception: {ex.Message}");
+                return null;
+            }
         }
 
-        public Task<BookDetailsModel> Update(BookDetailsModel bookDetailsModel)
+
+        public async Task<BookDetailsModel> Update(BookDetailsModel bookDetailsModel)
         {
-            throw new NotImplementedException();
+            try
+            {
+                // Send the PUT request to update the specific book detail
+                var response = await _httpClient.PutAsJsonAsync($"api/BookDetails/{bookDetailsModel.Id}", bookDetailsModel);
+
+                // Check if the response is successful
+                if (response.IsSuccessStatusCode)
+                {
+                    // Deserialize the response content and return the updated book details
+                    var updatedBook = await response.Content.ReadFromJsonAsync<BookDetailsModel>();
+                    return updatedBook; // Return the deserialized updated book object
+                }
+                else
+                {
+                    // Log the error or handle it as needed
+                    Console.WriteLine($"Error: {response.StatusCode} - {response.ReasonPhrase}");
+                    return null; // Return null if the response is not successful
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log or handle any exceptions that occur
+                Console.WriteLine($"Exception: {ex.Message}");
+                return null;
+            }
         }
+
+
     }
 }
